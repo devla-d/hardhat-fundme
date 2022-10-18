@@ -1,8 +1,9 @@
 import { network } from "hardhat";
-import { DeployFunction } from "hardhat-deploy/dist/types";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 import { developmentChains, networkConfig } from "../helper.config";
+import verifyContract from "../utils/verify";
+import "dotenv/config";
 
 module.exports = async function ({
   getNamedAccounts,
@@ -19,12 +20,22 @@ module.exports = async function ({
   } else {
     ethUsdPriceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"];
   }
+  const args = [ethUsdPriceFeedAddress];
 
-  const fundMe = deploy("FundMe", {
+  const fundMe = await deploy("FundMe", {
     from: deployer,
-    args: [ethUsdPriceFeedAddress],
+    args,
     log: true,
+    waitConfirmations: 6,
   });
+
+  if (
+    !developmentChains.includes(network.name) &&
+    process.env.ETHERSCANAPIKEY
+  ) {
+    await verifyContract(fundMe.address, args);
+  }
+
   log("::::::::::::::::::::::::::::::::::::::::::::::");
 };
 module.exports.tags = ["all", "fundMe"];
