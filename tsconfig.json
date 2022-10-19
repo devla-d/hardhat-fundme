@@ -6,10 +6,10 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "rootDirs": ["./src", "./scripts", "./test", "./deploy"]
+    "rootDirs": ["./src", "./scripts", "./test", "./deploy", "./utils"]
   },
 
   "exclude": ["dist", "node_modules"],
-  "include": ["./src", "./scripts", "./test", "./deploy"],
+  "include": ["./src", "./scripts", "./test", "./deploy", "./utils"],
   "files": ["./hardhat.config.ts"]
 }

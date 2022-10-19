@@ -26,7 +26,7 @@ module.exports = async function ({
     from: deployer,
     args,
     log: true,
-    waitConfirmations: 6,
+    waitConfirmations: 1,
   });
 
   if (

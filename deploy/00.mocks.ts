@@ -21,7 +21,7 @@ module.exports = async function ({
     log(
       "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
     );
-  } else console.log("No chain id");
+  }
 };
 
 module.exports.tags = ["all", "mocks"];
