@@ -18,10 +18,9 @@ contract FundMe {
     event Funded(address indexed from, uint256 amount);
 
     mapping(address => uint256) public addressToAmountFunded;
-    address[] public funders;
 
     address public immutable i_owner;
-    uint256 public constant MINIMUM_USD = 50 * 10**18;
+    uint256 public constant MINIMUM_USD = 10 * 10**18;
     AggregatorV3Interface public priceFeed;
 
     modifier onlyOwner() {
@@ -52,7 +51,6 @@ contract FundMe {
             "You need to spend more ETH!"
         );
         addressToAmountFunded[msg.sender] += msg.value;
-        funders.push(msg.sender);
     }
 
     function withdraw() public onlyOwner {
