@@ -13,12 +13,14 @@ module.exports = async function ({
   const { deployer } = await getNamedAccounts();
   const chainId = network.config.chainId;
   if (!chainId) return false;
-  let ethUsdPriceFeedAddress;
+  let ethUsdPriceFeedAddress, networkconfirmation;
   if (developmentChains.includes(network.name)) {
     const ethUsdAggregator = await deployments.get("MockV3Aggregator");
     ethUsdPriceFeedAddress = ethUsdAggregator.address;
+    networkconfirmation = 1;
   } else {
     ethUsdPriceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"];
+    networkconfirmation = 3;
   }
   const args = [ethUsdPriceFeedAddress];
 
@@ -26,7 +28,7 @@ module.exports = async function ({
     from: deployer,
     args,
     log: true,
-    waitConfirmations: 1,
+    waitConfirmations: networkconfirmation,
   });
 
   if (
