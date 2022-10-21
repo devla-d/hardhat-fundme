@@ -15,13 +15,13 @@ error FundMe_NotOwner();
 contract FundMe {
     using PriceConverter for uint256;
 
-    event Funded(address indexed from, uint256 amount);
+    // event Funded(address indexed from, uint256 amount);
 
-    mapping(address => uint256) public s_addressToAmountFunded;
+    mapping(address => uint256) private s_addressToAmountFunded;
 
-    address public immutable i_owner;
+    address private immutable i_owner;
     uint256 public constant MINIMUM_USD = 10 * 10**18;
-    AggregatorV3Interface public s_priceFeed;
+    AggregatorV3Interface private s_priceFeed;
 
     modifier onlyOwner() {
         if (msg.sender != i_owner) revert FundMe_NotOwner();
@@ -58,5 +58,17 @@ contract FundMe {
             value: address(this).balance
         }("");
         require(callSuccess, "Call failed");
+    }
+
+    function getOwnwer() public view returns (address) {
+        return i_owner;
+    }
+
+    function getFunders(address funder) public view returns (uint256) {
+        return s_addressToAmountFunded[funder];
+    }
+
+    function getPricefeed() public view returns (AggregatorV3Interface) {
+        return s_priceFeed;
     }
 }

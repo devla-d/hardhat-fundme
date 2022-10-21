@@ -18,8 +18,7 @@ describe("Fundme", function () {
 
   describe("Constructor", async function () {
     it("Set the aggregator address correctly", async function () {
-      const response = await Fundme.s_priceFeed();
-      console.log(response);
+      const response = await Fundme.getPricefeed();
       assert.equal(response, MockV3Aggregator.address);
     });
   });
@@ -32,7 +31,7 @@ describe("Fundme", function () {
     });
     it("Update the addressToAmountFunded   ", async function () {
       await Fundme.fund({ value: sendvalue });
-      const response = await Fundme.s_addressToAmountFunded(deployer);
+      const response = await Fundme.getFunders(deployer);
       assert.equal(response.toString(), sendvalue.toString());
     });
   });
