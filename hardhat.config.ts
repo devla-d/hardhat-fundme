@@ -28,6 +28,7 @@ const config: HardhatUserConfig = {
     currency: "USD",
     noColors: true,
     coinmarketcap: COINMARKETCAP_API_KEY,
+    token: "ETH",
   },
   namedAccounts: {
     deployer: {

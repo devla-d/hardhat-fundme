@@ -17,11 +17,11 @@ contract FundMe {
 
     event Funded(address indexed from, uint256 amount);
 
-    mapping(address => uint256) public addressToAmountFunded;
+    mapping(address => uint256) public s_addressToAmountFunded;
 
     address public immutable i_owner;
     uint256 public constant MINIMUM_USD = 10 * 10**18;
-    AggregatorV3Interface public priceFeed;
+    AggregatorV3Interface public s_priceFeed;
 
     modifier onlyOwner() {
         if (msg.sender != i_owner) revert FundMe_NotOwner();
@@ -30,7 +30,7 @@ contract FundMe {
 
     constructor(address PriceFeedAddress) {
         i_owner = msg.sender;
-        priceFeed = AggregatorV3Interface(PriceFeedAddress);
+        s_priceFeed = AggregatorV3Interface(PriceFeedAddress);
     }
 
     fallback() external payable {
@@ -47,10 +47,10 @@ contract FundMe {
      */
     function fund() public payable {
         require(
-            msg.value.getConversionRate(priceFeed) >= MINIMUM_USD,
+            msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD,
             "You need to spend more ETH!"
         );
-        addressToAmountFunded[msg.sender] += msg.value;
+        s_addressToAmountFunded[msg.sender] += msg.value;
     }
 
     function withdraw() public onlyOwner {
